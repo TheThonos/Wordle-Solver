@@ -10,6 +10,8 @@ public class Main {
         for (int i = guesses; i > 0; i--) {
             LetterBox[] wordFilter = getInputs();
             words.filter(wordFilter);
+            words.displayAllValidWords();
+//            scanner.nextLine();
         }
     }
 
@@ -35,13 +37,17 @@ public class Main {
 
     private static Color[] getColors() {
         System.out.print("Colors: ");
-        Color[] colors = {getColorFromChar(scanner.next()), getColorFromChar(scanner.next()), getColorFromChar(scanner.next()), getColorFromChar(scanner.next()), getColorFromChar(scanner.next())};
+        String[] colorStrings = scanner.nextLine().split("");
+        Color[] colors = new Color[5];
+        for(int i = 0; i < 5; i++){
+            colors[i] = getColorFromChar(colorStrings[i]);
+        }
         return colors;
     }
 
     private static String[] getChars(){
         System.out.print("Guess: ");
-        String str = scanner.nextLine().toUpperCase();
+        String str = scanner.nextLine().toLowerCase();
         return str.split("");
     }
 }

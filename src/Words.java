@@ -28,45 +28,53 @@ public class Words {
     }
 
     public void filter(LetterBox[] guess) {
-        for (int i = 0; i < this.words.size(); i++) {
-            String[] currentWord = this.words.get(i).split("");
+        int currentWordIndex = 0;
+        while (currentWordIndex < this.words.size()) {
+            String[] currentWord = this.words.get(currentWordIndex).split("");
+            boolean valid = true;
             for (int y = 0; y < 5; y++) {
-                boolean exitLoop = false;
-                switch (guess[y].color) {
-                    case Green:
-                        if (!currentWord[y].equals(guess[y].letter)) {
-                            this.words.remove(y);
-                            exitLoop = true;
-                            break;
-                        }
-
-                    case Yellow:
-                        if (currentWord[y].equals(guess[y].letter)) {
-                            this.words.remove(y);
-                            exitLoop = true;
-                            break;
-                        }
-
-                        if (!Arrays.stream(currentWord).toList().contains(guess[y].letter)) {
-                            this.words.remove(y);
-                            exitLoop = true;
-                            break;
-                        }
-
+                if (guess[y].color == Color.Green) {
+                    if (!guess[y].letter.equals(currentWord[y])) {
+                        valid = false;
                         break;
-                    case Gray:
-
-                        break;
-
+                    } else {
+                        currentWord[y] = "-";
+                    }
                 }
-                if(exitLoop){
+            }
+
+            for (int y = 0; y < 5; y++) {
+                if (guess[y].color == Color.Yellow && !Arrays.asList(currentWord).contains(guess[y].letter)) {
+                    valid = false;
                     break;
                 }
+
+                if (guess[y].color == Color.Yellow && Arrays.asList(currentWord).contains(guess[y].letter)) {
+                    int index = String.join("", currentWord).indexOf(guess[y].letter);
+
+                    currentWord[index] = "-";
+                }
+
+                if (guess[y].color == Color.Gray && Arrays.asList(currentWord).contains(guess[y].letter)) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (!valid) {
+                this.words.remove(currentWordIndex);
+            } else {
+                currentWordIndex++;
             }
         }
     }
 
     public void findBestWord() {}
 
-    public void getAllValidWords() {}
+    public void displayAllValidWords() {
+        for (String word : this.words) {
+            System.out.println(word);
+        }
+        System.out.println(this.words.size() + " words");
+    }
 }
