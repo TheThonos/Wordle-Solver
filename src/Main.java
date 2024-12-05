@@ -11,7 +11,9 @@ public class Main {
             LetterBox[] wordFilter = getInputs();
             words.filter(wordFilter);
             words.displayAllValidWords();
-//            scanner.nextLine();
+            words.findBestWordThomas();
+            //String bestMaksimWord = words.findBestWordMaksim();
+            //System.out.println("Best word according to Maksim: " + bestMaksimWord);
         }
     }
 
