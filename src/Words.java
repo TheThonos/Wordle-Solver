@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Words {
@@ -27,8 +28,9 @@ public class Words {
         }
     }
 
-    public void filter(LetterBox[] guess) {
+    public ArrayList<String> filter(LetterBox[] guess) {
         int currentWordIndex = 0;
+        ArrayList<String> removedWords = new ArrayList<>();
         while (currentWordIndex < this.words.size()) {
             String[] currentWord = this.words.get(currentWordIndex).split("");
             boolean valid = true;
@@ -67,11 +69,14 @@ public class Words {
             }
 
             if (!valid) {
+                removedWords.add(words.get(currentWordIndex));
                 this.words.remove(currentWordIndex);
             } else {
                 currentWordIndex++;
             }
         }
+
+        return removedWords;
     }
 
     public String findBestWordMaksim() {
@@ -144,15 +149,18 @@ public class Words {
         return scoredWords.getLast().word;
     }
 
-    public void findBestWordThomas() {
-        ArrayList<String> currentWordList = (ArrayList<String>) this.words.clone();
+    public String findBestWordThomas() {
+        int wordListLength = this.words.size();
         ArrayList<Double> averages = new ArrayList<>();
+        ArrayList<String> wordss = (ArrayList<String>) this.words.clone();
         int best = 0;
         double bestAvg = Double.MAX_VALUE;
-        for(int a = 0; a < currentWordList.size(); a++){
-            String guessWord = currentWordList.get(a);
+        for(int a = 0; a < wordListLength; a++){
+            System.out.println(a + "/" + wordListLength);
+            String guessWord = this.words.get(a);
             int totalResultNum = 0;
-            for (String testAnswer : currentWordList) {
+
+            for (String testAnswer : wordss) {
                 char[] guessChars = guessWord.toCharArray();
                 char[] answerChars = testAnswer.toCharArray();
                 LetterBox[] guess = new LetterBox[5];
@@ -175,28 +183,27 @@ public class Words {
                         if (yellow) {
                             guess[i] = new LetterBox("" + guessChars[i], Color.Yellow);
                             answerChars[yellowIndex] = '-';
-                            guessChars[i] = '-';
                         } else {
                             guess[i] = new LetterBox("" + guessChars[i], Color.Gray);
-                            guessChars[i] = '-';
                         }
+                        guessChars[i] = '-';
                     }
                 }
-                this.filter(guess);
+                ArrayList<String> removedWords = this.filter(guess);
                 totalResultNum += this.words.size();
-                this.words = (ArrayList<String>) currentWordList.clone();
+                this.words.addAll(removedWords);
+                if((double) (totalResultNum + (wordListLength - a)) / wordListLength > bestAvg){
+                    break;
+                }
             }
-            double average = (double) totalResultNum / currentWordList.size();
+            double average = (double) totalResultNum / wordListLength;
             averages.add(average);
             if (average < bestAvg) {
                 bestAvg = average;
                 best = a;
             }
         }
-        System.out.println(currentWordList.get(best) + ": " + bestAvg);
-//        for(int i = 0; i < this.words.size(); i++){
-//            System.out.println(this.words.get(i) + ": " + averages.get(i));
-//        }
+        return this.words.get(best);
     }
 
     public void displayAllValidWords() {

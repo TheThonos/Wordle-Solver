@@ -6,14 +6,19 @@ public class Main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         Words words = new Words();
+        String bestMaksimWord = words.findBestWordMaksim();
+        System.out.println("Best word according to Maksim: " + bestMaksimWord);
+        String bestThomasWord = words.findBestWordThomas();
+        System.out.println("Best word according to Thomas: " + bestThomasWord);
         final int guesses = 6;
         for (int i = guesses; i > 0; i--) {
             LetterBox[] wordFilter = getInputs();
             words.filter(wordFilter);
             words.displayAllValidWords();
-            words.findBestWordThomas();
-            //String bestMaksimWord = words.findBestWordMaksim();
-            //System.out.println("Best word according to Maksim: " + bestMaksimWord);
+            bestThomasWord = words.findBestWordThomas();
+            System.out.println("Best word according to Thomas: " + bestThomasWord);
+            bestMaksimWord = words.findBestWordMaksim();
+            System.out.println("Best word according to Maksim: " + bestMaksimWord);
         }
     }
 
