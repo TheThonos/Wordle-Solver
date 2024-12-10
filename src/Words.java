@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Words {
     public ArrayList<String> words;
+    public ArrayList<String> allWords;
 
     public Words() {
         this.words = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Words {
                 words.add(data);
             }
             reader.close();
+            allWords.addAll(words);
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -149,7 +151,7 @@ public class Words {
         return scoredWords.getLast().word;
     }
 
-    public String findBestWordThomas() {
+    public String findBestWordThomas() {//todo use allWords for first loop
         int wordListLength = this.words.size();
         ArrayList<Double> averages = new ArrayList<>();
         ArrayList<String> wordss = (ArrayList<String>) this.words.clone();
