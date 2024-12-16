@@ -12,6 +12,7 @@ public class Words {
 
     public Words() {
         this.words = new ArrayList<>();
+        this.allWords = new ArrayList<>();
         try {
             URL url = getClass().getResource("valid-wordle-words.txt");
             assert url != null;
@@ -159,7 +160,7 @@ public class Words {
         double bestAvg = Double.MAX_VALUE;
         for(int a = 0; a < wordListLength; a++){
             System.out.println(a + "/" + wordListLength);
-            String guessWord = this.words.get(a);
+            String guessWord = this.allWords.get(a);
             int totalResultNum = 0;
 
             for (String testAnswer : wordss) {
@@ -205,7 +206,7 @@ public class Words {
                 best = a;
             }
         }
-        return this.words.get(best);
+        return this.allWords.get(best);
     }
 
     public void displayAllValidWords() {
