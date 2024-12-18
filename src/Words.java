@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Words {
@@ -87,6 +86,10 @@ public class Words {
         String[] commonLetter = {"a", "e", "s", "o", "r", "i", "l", "t", "n", "u"};
         ArrayList<Word> scoredWords = new ArrayList<>();
 
+        if (this.words.isEmpty()) {
+            return "";
+        }
+
         for (String word : this.words) {
             Word currentWord = new Word(word);
 
@@ -154,12 +157,22 @@ public class Words {
 
     public String findBestWordThomas() {//todo use allWords for first loop
         int wordListLength = this.words.size();
+        int allWordsLength = this.allWords.size();
         ArrayList<Double> averages = new ArrayList<>();
-        ArrayList<String> wordss = (ArrayList<String>) this.words.clone();
+        ArrayList<String> wordss = new ArrayList<>(this.words);
         int best = 0;
+        int percentDone = 0;
+        int barDone = 0;
         double bestAvg = Double.MAX_VALUE;
-        for(int a = 0; a < wordListLength; a++){
-            System.out.println(a + "/" + wordListLength);
+        for(int a = 0; a < allWordsLength; a++){
+            if(a % 148 == 0){
+                System.out.print("\r[" + "#".repeat(barDone) + " ".repeat(10 - barDone) + "] " + percentDone + "%");
+                percentDone++;
+                barDone = percentDone / 10;
+                if(percentDone > 100){
+                    System.out.println("\rDone!");
+                }
+            }
             String guessWord = this.allWords.get(a);
             int totalResultNum = 0;
 
