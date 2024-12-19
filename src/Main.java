@@ -33,8 +33,19 @@ public class Main {
                 break;
             }
             words.displayAllValidWords();
-            String bestThomasWord = words.findBestWordThomas();
-            System.out.println("Best word according to Thomas: " + bestThomasWord);
+            int predictedTime = words.words.size() / 4;
+            if(predictedTime > 30){
+                System.out.println("Finding optimal word may take around " + predictedTime + " seconds.");
+                System.out.print("Would you like to calculate it anyway? (Y/n) ");
+                String choice = scanner.nextLine().toLowerCase();
+                if (!choice.equals("n") && !choice.equals("no")) {
+                    String bestThomasWord = words.findBestWordThomas();
+                    System.out.println("Best word according to Thomas: " + bestThomasWord);
+                }
+            } else {
+                String bestThomasWord = words.findBestWordThomas();
+                System.out.println("Best word according to Thomas: " + bestThomasWord);
+            }
             bestMaksimWord = words.findBestWordMaksim();
             System.out.println("Best word according to Maksim: " + bestMaksimWord);
         }

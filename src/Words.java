@@ -157,6 +157,9 @@ public class Words {
 
     public String findBestWordThomas() {//todo use allWords for first loop
         int wordListLength = this.words.size();
+        if(wordListLength == 1){
+            return this.words.getFirst();
+        }
         int allWordsLength = this.allWords.size();
         ArrayList<Double> averages = new ArrayList<>();
         ArrayList<String> wordss = new ArrayList<>(this.words);
